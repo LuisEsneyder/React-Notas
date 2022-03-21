@@ -43,7 +43,14 @@ const App= ()=> {
       setNewNote('')
     })
   }
- 
+  useEffect(()=>{
+    const loggedUserJSON=window.localStorage.getItem('loggedNoteappUser')
+    if(loggedUserJSON){
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      notesService.setToken(user.token)
+    }
+  },[])
   //Observar lo cambios del input
   const handleUsername=(event)=>{
     setusername(event.target.value)
@@ -57,6 +64,7 @@ const App= ()=> {
       const user = await loginServices.login({
         username,passwordHas
       })
+      window.localStorage.setItem('loggedNoteappUser',JSON.stringify(user))
       notesService.setToken(user.token)
       setUser(user)
       setusername('')
@@ -87,6 +95,7 @@ const App= ()=> {
       setNote(notes.filter(nota=>nota.id!==id))
     })
   }
+  
   const notesToShow = showAll ? notes : notes.filter(note=>note.important)
   return (
     <div>
