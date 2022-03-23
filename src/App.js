@@ -117,7 +117,7 @@ const App= ()=> {
           username={username} />
           </Toggable>:
           <Toggable buttonLabel="new note">
-            {User.name} loging <button onClick={()=>cerrarSesion()} > lagout</button>
+            {User.name} loging <button onClick={()=>cerrarSesion()} > logout</button>
             <FormularioAddNote 
             AddNote={AddNote} 
             newNota={newNote} 
