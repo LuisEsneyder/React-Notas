@@ -7,6 +7,7 @@ import index from './index.css'
 import loginServices from './services/loginServices'
 import FOrmularioLogin from './components/FormularioLoging'
 import FormularioAddNote from './components/formularioAddNote'
+import Toggable from './components/Togglable'
 
 const App= ()=> {
   const [notes, setNote]=useState([])
@@ -95,19 +96,35 @@ const App= ()=> {
       setNote(notes.filter(nota=>nota.id!==id))
     })
   }
-  
+  const cerrarSesion = ()=>{
+    window.localStorage.removeItem('loggedNoteappUser')
+    setUser(null)
+  }
   const notesToShow = showAll ? notes : notes.filter(note=>note.important)
   return (
     <div>
       <h1>Notes</h1>
       <Notificacion mensaje={errorMensaje} />
       <div>
-        {User == null && <FOrmularioLogin handleLogin={handleLogin} handlePassword={handlePassword} handleUsername={handleUsername} passwordHas={passwordHas} username={username} />}
-        {User !=null && <div>
-          <p>{User.name} logged-in</p>
-          <FormularioAddNote AddNote={AddNote} newNota={newNote} handleNoteChange={handleNoteChange}/>
-        </div>
+      
+        {User === null? 
+          <Toggable buttonLabel='login'>
+            <FOrmularioLogin 
+          handleLogin={handleLogin} 
+          handlePassword={handlePassword} 
+          handleUsername={handleUsername} 
+          passwordHas={passwordHas} 
+          username={username} />
+          </Toggable>:
+          <Toggable buttonLabel="new note">
+            {User.name} loging <button onClick={()=>cerrarSesion()} > lagout</button>
+            <FormularioAddNote 
+            AddNote={AddNote} 
+            newNota={newNote} 
+            handleNoteChange={handleNoteChange}/>
+          </Toggable>
         }
+        
       <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all' }
         </button>
