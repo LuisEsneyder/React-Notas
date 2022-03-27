@@ -1,28 +1,40 @@
-import React from "react";
+import React,{useState} from "react";
 
 const FOrmularioLogin = ({
-    handleLogin,
-    handleUsername,
-    handlePassword,
-    username,
-    passwordHas})=>{
+    handleLogin})=>{
+    const [username,setUsername]=useState('')
+    const [passwordHas,setPassword]=useState('')
+    const handleUsernameChange = event=>{
+        setUsername(event.target.value)
+    }
+    const handlePasswordChange = event=>{
+        setPassword(event.target.value)
+    }
+    const handleLoginSend = event=>{
+        event.preventDefault()
+        handleLogin({
+            username, passwordHas
+        })
+        setPassword('')
+        setUsername('')
+    }
     return(
         <div>
             <h2>Login</h2>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLoginSend}>
             <div>
                 nameuser <input 
                 type='text' 
                 name="Username" 
                 value={username} 
-                onChange={handleUsername} />
+                onChange={handleUsernameChange} />
             </div>
             <div>
                 password <input 
                 type='password' 
                 name="password" 
                 value={passwordHas} 
-                onChange={handlePassword} /> 
+                onChange={handlePasswordChange} /> 
             </div>
             <button type="submit" >login</button>
         </form>

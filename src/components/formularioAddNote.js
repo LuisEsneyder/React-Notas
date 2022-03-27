@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 
 const FormularioAddNote = ({
-    AddNote,
-    newNota
-    , handleNoteChange }) => {
-    const [neweNote, setNewNote] = useState('')
-    
+    createNote}) => {
+    const [newNote, setNewNote] = useState('')
+    const handleNoteChange = (event)=>{
+        setNewNote(event.target.value)
+    }
+    const addNote = (event)=>{
+        event.preventDefault()
+         createNote({
+            content : newNote,
+            important : Math.random() < .5,
+            date : new Date().toString()
+        }) 
+        setNewNote('')
+    }
     return (
-        <form onSubmit={AddNote} >
+        <form onSubmit={addNote} >
             <input
-                value={newNota}
+                value={newNote}
                 type='text'
                 onChange={handleNoteChange}
             />
